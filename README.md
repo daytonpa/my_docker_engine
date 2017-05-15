@@ -25,8 +25,5 @@ There are a few attributes you can set that will install Docker for you.  By def
 
  - ```build_containers```: Creates the base images for your docker containers, and then builds the containers
 
- - ```install_docker```: Installs Docker via ```package``` or ```apt_repository```/```yum_repository``` resources depending on desired installation method and operating system.
-
-
 #### Unit Tests
 All unit tests are performed by ChefSpec on each recipe.  Currently, the unit tests will test on Ubuntu 16.04 and CentOS 7.2.
