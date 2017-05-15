@@ -1,6 +1,6 @@
 #
 # Cookbook:: docker_book
-# Spec:: install_docker
+# Spec:: set_up
 # Author:: Patrick Dayton  daytonpa@gmail.com
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.

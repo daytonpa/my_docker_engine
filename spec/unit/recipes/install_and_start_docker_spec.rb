@@ -7,12 +7,10 @@
 
 # To run this unit test, copy and paste the command below in your terminal
 # chef exec rspec -fd spec/unit/recipes/default_spec.rb --color
-#  OR to run all tests, copy and paste
-# chef exec rspec -fd spec/unit/recipes/ --color
 
 require 'spec_helper'
 
-describe 'my_docker_engine::default' do
+describe 'my_docker_engine::install_and_start_docker' do
   # for a complete list of available platforms and versions see:
   # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
   {
@@ -20,7 +18,7 @@ describe 'my_docker_engine::default' do
     'centos' => ['7.2.1511']
   }.each do |os, version|
     version.each do |v|
-      context "When installing/configuring Docker on #{os.upcase}-#{v}" do
+      context "When installing Docker on #{os.upcase}-#{v}" do
 
         let(:chef_run) do
           ChefSpec::ServerRunner.new(platform: os, version: v).converge(described_recipe)
@@ -29,21 +27,12 @@ describe 'my_docker_engine::default' do
         it 'converges successfully' do
           expect { chef_run }.to_not raise_error
         end
-
-        case os
-        when 'ubuntu', 'centos'
-          it 'includes the set_up, install_and_start_docker, and build_containers recipes' do
-            %w( set_up install_and_start_docker build_containers ).each do |recipe|
-              expect(chef_run).to include_recipe("my_docker_engine::#{recipe}")
-              expect(chef_run).to_not write_log('Unsupported Platform')
-            end
-          end
-        else
-          it 'notifies that your platform is not supported' do
-            expect(chef_run).to write_log('Unsupported Platform').with(
-              level: :info
-            )
-          end
+        it 'installs Docker' do
+          expect(chef_run).to create_docker_installation('docker')
+        end
+        it 'creates and starts the docker service' do
+          expect(chef_run).to create_docker_service('default')
+          expect(chef_run).to start_docker_service('default')
         end
       end
     end

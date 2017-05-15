@@ -1,7 +1,7 @@
 # my_docker_engine
 
 #### Description
-This cookbook will install and configure Docker.  This is also still in development, but more is to come!
+This cookbook will install and configure Docker.  This is also still in development, but more is to come!  So far, Docker is installed, creates a 'hello-world' container, and runs the service.  You can view the container by entering ```0.0.0.0:80``` in your browser after converging.
 
 #### Supported platforms
  - ubuntu 16.04
@@ -21,9 +21,9 @@ There are a few attributes you can set that will install Docker for you.  By def
 
  - ```set_up```: Updates the apt or yum caches (depending on desired OS) and installs the required 3rd-party packages for running Docker.
 
- - ```config_docker```: Generates a configuration directory and a 'daemon.json' file, which is where the configuration settings are stored (still in development).
+ - ```install_and_start_docker```: Install Docker and create/start the service.
 
- - ```docker_service```: Starts and enables the Docker service.
+ - ```build_containers```: Creates the base images for your docker containers, and then builds the containers
 
  - ```install_docker```: Installs Docker via ```package``` or ```apt_repository```/```yum_repository``` resources depending on desired installation method and operating system.
 
