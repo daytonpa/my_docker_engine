@@ -1,5 +1,5 @@
 #
-# Cookbook:: my_docker_engine
+# Cookbook:: docker_book
 # Spec:: install_docker
 # Author:: Patrick Dayton  daytonpa@gmail.com
 #
@@ -7,12 +7,10 @@
 
 # To run this unit test, copy and paste the command below in your terminal
 # chef exec rspec -fd spec/unit/recipes/default_spec.rb --color
-#  OR to run all tests, copy and paste
-# chef exec rspec -fd spec/unit/recipes/ --color
 
 require 'spec_helper'
 
-describe 'my_docker_engine::default' do
+describe 'my_docker_engine::set_up' do
   # for a complete list of available platforms and versions see:
   # https://github.com/customink/fauxhai/blob/master/PLATFORMS.md
   {
@@ -20,7 +18,7 @@ describe 'my_docker_engine::default' do
     'centos' => ['7.2.1511']
   }.each do |os, version|
     version.each do |v|
-      context "When installing/configuring Docker on #{os.upcase}-#{v}" do
+      context "When installing prerequisites for Docker on #{os.upcase}-#{v}" do
 
         let(:chef_run) do
           ChefSpec::ServerRunner.new(platform: os, version: v).converge(described_recipe)
@@ -31,18 +29,22 @@ describe 'my_docker_engine::default' do
         end
 
         case os
-        when 'ubuntu', 'centos'
-          it 'includes the set_up, install_docker, docker_service, and config_docker recipes' do
-            %w( set_up install_docker docker_service config_docker ).each do |recipe|
-              expect(chef_run).to include_recipe("my_docker_engine::#{recipe}")
-              expect(chef_run).to_not write_log('Unsupported Platform')
+        when 'ubuntu'
+          it 'updates the apt caches' do
+            expect(chef_run).to include_recipe('apt')
+          end
+          it 'installs the required packages for Docker' do
+            %w(apt-transport-https ca-certificates curl software-properties-common).each do |pkg|
+              expect(chef_run).to install_apt_package(pkg)
             end
           end
-        else
-          it 'notifies that your platform is not supported' do
-            expect(chef_run).to write_log('Unsupported Platform').with(
-              level: :info
-            )
+
+        when 'centos'
+          it 'updates the yum caches' do
+            expect(chef_run).to include_recipe('yum')
+          end
+          it 'installs the required packages for Docker' do
+            expect(chef_run).to install_yum_package('yum-utils')
           end
         end
       end

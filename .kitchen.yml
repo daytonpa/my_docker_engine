@@ -14,7 +14,7 @@ verifier:
 
 platforms:
   - name: ubuntu-16.04
-  - name: centos-7.3
+  # - name: centos-7.3
 
 suites:
   - name: default
@@ -24,3 +24,5 @@ suites:
       inspec_tests:
         - test/smoke/default
     attributes:
+      my_docker_engine:
+        installation_method: 'repo'

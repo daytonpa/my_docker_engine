@@ -1,6 +1,6 @@
 name 'my_docker_engine'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
+maintainer 'Patrick Dayton'
+maintainer_email 'daytonpa@gmail.com'
 license 'All Rights Reserved'
 description 'Installs/Configures my_docker_engine'
 long_description 'Installs/Configures my_docker_engine'
@@ -18,3 +18,7 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 # a Supermarket.
 #
 # source_url 'https://github.com/<insert_org_here>/my_docker_engine'
+
+depends 'apt'
+depends 'yum'
+depends 'docker'
