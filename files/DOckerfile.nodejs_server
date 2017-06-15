@@ -1,0 +1,14 @@
+# Dockerfile for node server
+
+# Set the base image from our Cowsay build
+FROM cowsay:latest
+
+# Download nodejs for our server
+RUN curl -# -L https://nodejs.org/dist/v6.11.0/node-v6.11.0-linux-x64.tar.gz | tar xzf - --strip-components=1 -C /usr/local
+RUN npm install
+
+# Start the node service
+ENTRYPOINT ["node", "server.js"]
+
+# Expose the port for the server
+EXPOSE 8080
