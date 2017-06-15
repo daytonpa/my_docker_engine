@@ -12,7 +12,7 @@
 case node['platform_family']
 when 'debian', 'rhel'
   include_recipe 'my_docker_engine::set_up'
-  include_recipe 'my_docker_engine::nginx_conf'
+  include_recipe 'my_docker_engine::nginx_config'
   include_recipe 'my_docker_engine::install_and_start_docker'
   include_recipe 'my_docker_engine::build_containers'
 else
