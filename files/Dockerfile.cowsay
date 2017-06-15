@@ -1,0 +1,21 @@
+# Dockerfile for Cowsay OS
+
+# Base image (ubuntu 16.04)
+FROM ubuntu:xenial
+
+# File maintainer
+MAINTAINER Patrick Dayton
+LABEL description="Base OS for running cowsay"
+LABEL version="1.0"
+
+# Update repo source list
+RUN apt-get update
+
+# Install curl and cowsay via aptitude, and then Install node via curl
+RUN apt-get install -y curl cowsay
+
+# Copy our hello-cow repo files
+COPY /*.js* /
+
+# Symlink cowsay to the /usr/bin directory, because /usr/games is silly
+RUN ln -s /usr/games/cowsay usr/bin/cowsay
