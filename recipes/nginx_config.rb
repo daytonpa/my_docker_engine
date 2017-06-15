@@ -15,8 +15,8 @@ end
 cookbook_file '/etc/nginx/nginx.conf' do
   # owner ['my_docker_engine']['user']
   # group ['my_docker_engine']['group']
-  owner 'vagrant'
-  group 'vagrant'
+  owner 'root'
+  group 'root'
   mode '0644'
   source 'nginx.conf'
   notifies :restart, 'service[nginx]', :immediately
